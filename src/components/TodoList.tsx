@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 interface todo {
   name: string,
-  id: number
+  id: string
 }
 
 
@@ -20,8 +20,13 @@ export const TodoList = () => {
   }
 
   const createTodo = (text: string) => {
-    setTodos([...todos, { name: text, id: todos.length }])
+    setTodos([...todos, { name: text, id: crypto.randomUUID() }])
     setTodo('')
+  }
+
+  const deleteTodo = (id: string) => {
+    const newArr = todos.filter(object => object.id !== id)
+    setTodos(newArr)
   }
 
   return (
@@ -30,7 +35,10 @@ export const TodoList = () => {
       <button type="submit" onClick={() => createTodo(todo)}>New Todo</button>
       <ul>
         {todos.map(todo => (
-          <li key={todo.id}>{todo.name}</li>
+          <div>
+            <li key={todo.id}>{todo.name}</li>
+            <button onClick={() => deleteTodo(todo.id)}>delete</button>
+          </div>
         ))}
       </ul>
     </div>
